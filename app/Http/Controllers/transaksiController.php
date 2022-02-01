@@ -177,7 +177,8 @@ class transaksiController extends Controller
         ->orderBy('tgl_pesan','DESC')
         ->get();
 
-         $total = transaksi::sum('total_harga');
+         // $total = transaksi::sum('total_harga');
+        $total = transaksi::where('bayar','=','0')->sum('total_harga');
         return view('admin.transaksi.v_laporan',compact('lap','total'));
 
     }

@@ -101,10 +101,4 @@ class produkController extends Controller
         return redirect('/produk');
     }
 
-    public function home()
-    {
-        $total_produk = produk::count();
-        $total_transaksi = transaksi::count();
-        return view('admin.home',compact('total_produk', 'total_transaksi'));
-    }
 }

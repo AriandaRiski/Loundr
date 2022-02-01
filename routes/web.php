@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\produkController;
 use App\Http\Controllers\transaksiController;
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,12 +15,9 @@ use App\Http\Controllers\transaksiController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('admin/home');
-// });
 
-// Route::view('/',('admin.home'));
-Route::get('/',[produkController::class,'home']);
+Route::view('/home',('admin.home'));
+// Route::get('/home',[HomeController::class,'home']);
  //Route::get('/produk',[produkController::class,'produk']);
 Route::resource('/produk',produkController::class);
 Route::resource('/transaksi',transaksiController::class);
@@ -28,3 +26,8 @@ Route::get('/transaksi/status/{id}',[transaksiController::class,'status']);
 Route::get('/transaksi/struk/{id}',[transaksiController::class,'cetak']);
 Route::get('/laporan',[transaksiController::class,'laporan']);
 
+
+Auth::routes();
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::view('/logout',('home'));

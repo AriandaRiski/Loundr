@@ -16,7 +16,7 @@
                   </div>
                   <div class="form-group">
                     <label>Tarif</label>
-                    <input type="text" class="form-control" name="tarif_produk" maxlength="5" placeholder="Masukkan Tarif Perkilo" required="required">
+                    <input type="text" class="form-control" name="tarif_produk" id="tarif_produk" maxlength="5" placeholder="Masukkan Tarif Perkilo" required="required">
                   </div>
                 </div>
                 <div class="card-footer">
@@ -27,5 +27,10 @@
               </Form>
             </div>
             <!-- /.card -->
-           
+
+<script>
+$(document).ready(function(){
+			$('#tarif_produk').maskMoney({prefix:'Rp. ', thousands:'.', decimal:',', precision:0});
+		});
+</script>
 @endsection

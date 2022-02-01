@@ -9,7 +9,7 @@
               <div class="info-box-content">
                 <span class="info-box-text">Produk</span>
                 <span class="info-box-number">
-                  {{$total_produk}}
+                  <!-- $total_produk -->
                 </span>
               </div>
               <!-- /.info-box-content -->
@@ -23,7 +23,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Transaksi</span>
-                <span class="info-box-number">{{$total_transaksi}}</span>
+                <!-- <span class="info-box-number">$total_transaksi</span> -->
               </div>
               <!-- /.info-box-content -->
             </div>

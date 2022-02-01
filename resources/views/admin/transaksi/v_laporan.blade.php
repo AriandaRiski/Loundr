@@ -39,7 +39,13 @@
                   <tr>
                     <td>{{$no++}}</td>
                     <td>{{$pro->tgl_pesan}}</td>
-                    <td>Rp. {{$pro->total_harga}} </td> 
+                    <td align="right">
+                    <?php 
+                    $number = $pro->total_harga;
+                    $format_indonesia = number_format ($number, 0, ',', '.');
+                    echo $format_indonesia; //1.234,56
+                    ?>  
+                    </td> 
                     
                   </tr>
                   @endforeach
@@ -48,7 +54,13 @@
                   <tr>
                     <th>TOTAL</th>
                     <th></th>
-                    <th>Rp. {{$total}}</th>
+                    <th style="text-align: right">
+                    <?php 
+                    $number = $total;
+                    $format_indonesia = number_format ($number, 0, ',', '.');
+                    echo "Rp. ".$format_indonesia; //1.234,56
+                    ?>  
+                    </th>
                     
                   </tr>
                   </tfoot>

@@ -71,7 +71,14 @@
                   <tr>
                     <td>{{$no++}}</td>
                     <td>{{$pro->nama_produk}}</td>
-                    <td>Rp. {{$pro->tarif_produk}}/Kg </td>
+                    <td>
+                    <?php 
+                    $number = $pro->tarif_produk;
+                    $format_indonesia = number_format ($number, 0, ',', '.');
+                    echo "Rp. ".$format_indonesia; //1.234,56
+                    ?>
+                    </td>
+
                    <td> <div class="btn-group">
                         <a href="{{url('/produk/'.$pro->id.'/edit')}}" type="button" class="btn btn-warning" >
                           <i class="fas fa-pen"></i>

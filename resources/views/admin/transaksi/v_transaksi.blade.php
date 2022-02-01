@@ -62,16 +62,23 @@
                       <tr>
                         <td>{{$no++}}</td>
                         <td>{{$trans->nama}}</td>
-                        <!-- <td>{{$trans->hp}}</td> -->
                         <td>{{$trans->tgl_pesan}}</td>
                         <td>{{$trans->tgl_ambil}}</td>
                         <td>{{$trans->berat}} Kg</td>
                         <td>{{$trans->nama_produk}}</td>
-                        <td>Rp. {{$trans->total_harga}}</td>
+                        <td>
+                        <?php 
+                    $number = $trans->total_harga;
+                    $format_indonesia = number_format ($number, 0, ',', '.');
+                    echo "Rp. ".$format_indonesia; //1.234,56
+                    ?>
+                        </td>
                         <td>
                         <?php
+                          $number = $trans->bayar;
+                          $format_indonesia = number_format ($number, 0, ',', '.');
                           if ($trans->bayar != 0){
-                            echo "<button class='btn btn-danger btn-shadowed popover-hover btn-xs' data-container='body' data-toggle='tooltip' data-placement='left' data-content='Belum Lunas'><i class='icon-power-switch'></i>Rp.{$trans->bayar}</button>";
+                            echo "<button class='btn btn-danger btn-shadowed popover-hover btn-xs' data-container='body' data-toggle='tooltip' data-placement='left' data-content='Belum Lunas'><i class='icon-power-switch'></i>Rp.{$format_indonesia}</button>";
                             }else{
                               echo "<button class='btn btn-info btn-shadowed popover-hover btn-xs' data-container='body' data-toggle='tooltip' data-placement='left' data-content='Lunas'><i class='fa fa-check'></i>Lunas</button>";
                                   }
