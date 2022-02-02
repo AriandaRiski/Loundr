@@ -24,18 +24,63 @@
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+   <!-- Navbar -->
+   <nav class="main-header navbar navbar-expand navbar-dark">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-      
     </ul>
 
     <!-- Right navbar links -->
-   
+    <ul class="navbar-nav ml-auto">
+     
+      <!-- Messages Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-user"></i>
+          <span class="badge badge-danger navbar-badge"></span>
+        ADMIN
+        </a>
+      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        
+      <div class="card card-solid">
+        <div class="card-body pb-0">
+          <div class="row">
+            <div >
+              <div class="card bg-light d-flex flex-fill">
+                <div class="card-body pt-0">
+                  <div class="row">
+                    <div class="col-7">
+                      <h3 class="lead"><b>Nicole Pearson</b></h3>
+                    </div>
+                    <div class="col-5 text-center">
+                      <img src="{{asset('template/')}}/dist/img/user1-128x128.jpg" alt="user-avatar" class="img-circle img-fluid">
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <div class="text-center">
+                                    <a class="btn btn-danger btn-sm" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+      <li class="nav-item">
+        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+          <i class="fas fa-expand-arrows-alt"></i>
+        </a>
+      </li>
+    </ul>
   </nav>
   <!-- /.navbar -->
 
@@ -49,17 +94,6 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{{asset('template/')}}/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="/logout" class="d-block">ADMIN</a>
-        </div>
-      </div>
-
-    
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
