@@ -180,6 +180,10 @@ class transaksiController extends Controller
          // $total = transaksi::sum('total_harga');
         $total = transaksi::where('bayar','=','0')->sum('total_harga');
         return view('admin.transaksi.v_laporan',compact('lap','total'));
+    }
 
+    public function __construct()
+    {
+        $this->middleware('auth');
     }
 }

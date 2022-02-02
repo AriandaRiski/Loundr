@@ -101,4 +101,8 @@ class produkController extends Controller
         return redirect('/produk');
     }
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 }
