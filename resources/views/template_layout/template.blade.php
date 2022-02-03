@@ -41,7 +41,7 @@
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-user"></i>
           <span class="badge badge-danger navbar-badge"></span>
-        ADMIN
+          {{ Auth::user()->name }}
         </a>
       <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
         
@@ -53,7 +53,9 @@
                 <div class="card-body pt-0">
                   <div class="row">
                     <div class="col-7">
-                      <h3 class="lead"><b>Nicole Pearson</b></h3>
+                    <h6 class="lead">Halo, {{ Auth::user()->name }} </h6>
+                      <br>
+                      <p>{{ Auth::user()->email }}</p>                      
                     </div>
                     <div class="col-5 text-center">
                       <img src="{{asset('template/')}}/dist/img/user1-128x128.jpg" alt="user-avatar" class="img-circle img-fluid">
@@ -98,7 +100,7 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-item">
+          <li class="{{request()->is('/') ? 'active' : ''}}">
             <a href="/" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
               <p>
@@ -106,7 +108,7 @@
               </p>
             </a>
           </li> 
-          <li class="nav-item">
+          <li class="{{request()->is('/produk') ? 'active' : ''}}">
             <a href="/produk" class="nav-link">
               <i class="nav-icon fab fa-product-hunt"></i>
               <p>
@@ -114,7 +116,7 @@
               </p>
             </a>
           </li> 
-          <li class="nav-item">
+          <li>
             <a href="/transaksi" class="nav-link">
               <i class="nav-icon fas fa-chart-line"></i>
               <p>
@@ -122,7 +124,7 @@
               </p>
             </a>
           </li> 
-          <li class="nav-item">
+          <li class="{{request()->is('/laporan') ? 'active' : ''}}">
             <a href="/laporan" class="nav-link">
               <i class="nav-icon fas fa-chart-line"></i>
               <p>

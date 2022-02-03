@@ -58,7 +58,7 @@
         <div class="row">
           <div class="col-8">
             <div class="icheck-primary">
-              <input type="checkbox" id="remember">
+            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
               <label for="remember">
                 Remember Me
               </label>
@@ -74,7 +74,7 @@
 
 
       <p class="mb-0">
-        <a href="register.html" class="text-center">Register a new membership</a>
+        <a href="{{ route('register') }}" class="text-center">Register a new membership</a>
       </p>
     </div>
     <!-- /.card-body -->
