@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\produkController;
 use App\Http\Controllers\transaksiController;
 use App\Http\Controllers\HomeController;
+// use App\Model\transaksi;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,7 +21,7 @@ Route::view('/home',('admin.home'));
 // Route::get('/home',[HomeController::class,'home']);
  //Route::get('/produk',[produkController::class,'produk']);
 Route::resource('/produk',produkController::class);
-Route::resource('/transaksi',transaksiController::class);
+Route::resource('/transaksi',transaksiController::class)->middleware('auth');
 // Route::resource('/laporan',laporanController::class);
 Route::get('/transaksi/status/{id}',[transaksiController::class,'status']);
 Route::get('/transaksi/struk/{id}',[transaksiController::class,'cetak']);
@@ -31,3 +32,4 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::view('/logout',('home'));
+

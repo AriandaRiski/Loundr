@@ -182,8 +182,8 @@ class transaksiController extends Controller
         return view('admin.transaksi.v_laporan',compact('lap','total'));
     }
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 }

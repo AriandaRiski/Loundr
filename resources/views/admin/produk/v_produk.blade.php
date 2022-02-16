@@ -1,85 +1,37 @@
 @extends('template_layout.template')
 @section('konten')
-<div class="card">
-              <div class="card-header">
+
+
+  <div class="card">
+              <div class="card-header border-0">
                 <h3 class="card-title">Produk</h3>
-                <div class="float-right">
-
-                <!-- Button trigger modal -->
-      <!-- <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#staticBackdrop">
-        <i class="fa fa-plus-circle"></i>
-      </button> -->
-
-      <a href="{{url('/produk/create')}}" type="button" class="btn btn-success btn-lg">
-  <i class="fa fa-plus-circle"></i>
-      </a>
-
-      
-
-<!-- Modal -->
-<!-- <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h6 class="modal-title" id="staticBackdropLabel">Tambah Produk</h6>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form method="POST" action="{{url('/produk/create')}}">
-                <div class="card-body">
-                  <div class="form-group">
-          @csrf
-                    <label>Nama Produk</label>
-                    <input type="text" class="form-control" name="nama_produk" placeholder="Masukkan Nama Produk">
-                  </div>
-                  <div class="form-group">
-                    <label>Tarif</label>
-                    <input type="text" class="form-control" name="tarif_produk" maxlength="5" placeholder="Masukkan Tarif Perkilo">
-                    
-                  </div>
+                <div class="card-tools">
+                <a href="{{url('/produk/create')}}" type="button" class="btn btn-success btn-lg">
+                    <i class="fa fa-plus-circle"></i>
+                  </a>
                 </div>
-          </form>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Keluar</button>
-        <button type="submit" class="btn btn-primary">Simpan</button>
-      </div>
-    </div>
-  </div>
-</div> -->
-</div>
-</div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-valign-middle">
                   <thead>
                   <tr>
                     <th>No</th>
-                    <th>Nama Produk</th>
+                    <th>Produk</th>
                     <th>Harga</th>
                     <th>Aksi</th>
-                 </tr>
-                 
+                  </tr>
                   </thead>
                   <tbody>
-                  <?php $no=1; ?>
-                  @foreach ($produk as $pro)
-                      
+                    <?php $no=1; ?>
+                    @foreach ($produk as $pro)
                   <tr>
                     <td>{{$no++}}</td>
                     <td>{{$pro->nama_produk}}</td>
                     <td>
-                    <?php 
-                    $number = $pro->tarif_produk;
-                    $format_indonesia = number_format ($number, 0, ',', '.');
-                    echo "Rp. ".$format_indonesia; //1.234,56
-                    ?>
+                   {{number_format($pro->tarif_produk)}}
                     </td>
-
-                   <td> <div class="btn-group">
+                    <td>
+                    <div class="btn-group">
                         <a href="{{url('/produk/'.$pro->id.'/edit')}}" type="button" class="btn btn-warning" >
                           <i class="fas fa-pen"></i>
                         </a>
@@ -92,12 +44,13 @@
                         </form>
                       </div>
                     </td>
-                    
                   </tr>
-                  @endforeach
-                </tbody>
+                 @endforeach
+                  </tbody>
                 </table>
-              </div>           
-  </div>
+              </div>
+            </div>
+            <!-- /.card -->
+          </div>
 @endsection
 
