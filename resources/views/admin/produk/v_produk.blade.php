@@ -1,4 +1,5 @@
 @extends('template_layout.template')
+@section('title', 'Produk')
 @section('konten')
 
 
@@ -7,7 +8,7 @@
                 <h3 class="card-title">Produk</h3>
                 <div class="card-tools">
                 <a href="{{url('/produk/create')}}" type="button" class="btn btn-success btn-lg">
-                    <i class="fa fa-plus-circle"></i>
+                    <i class="bx bx-plus-medical nav_icon"></i>
                   </a>
                 </div>
               </div>
@@ -24,6 +25,7 @@
                   <tbody>
                     <?php $no=1; ?>
                     @foreach ($produk as $pro)
+                    @if ($pro->user_id_produk == Auth::user()->id)
                   <tr>
                     <td>{{$no++}}</td>
                     <td>{{$pro->nama_produk}}</td>
@@ -33,18 +35,19 @@
                     <td>
                     <div class="btn-group">
                         <a href="{{url('/produk/'.$pro->id.'/edit')}}" type="button" class="btn btn-warning" >
-                          <i class="fas fa-pen"></i>
+                          <i class="bx bxs-edit nav_icon"></i>
                         </a>
                         <form method="POST" action="{{ url('/produk/'.$pro->id) }}">
                         @csrf
                         <input type="hidden" name="_method" value="DELETE">
                         <button type="submit" class="btn btn-danger btn-flat">
-                          <i class="fas fa-trash"></i>
+                          <i class="bx bxs-trash nav_icon"></i>
                         </button>
                         </form>
                       </div>
                     </td>
                   </tr>
+                  @endif
                  @endforeach
                   </tbody>
                 </table>

@@ -1,5 +1,5 @@
 @extends('template_layout/template')
-
+@section('title','Edit Transaksi')
 @section('konten')
 
 

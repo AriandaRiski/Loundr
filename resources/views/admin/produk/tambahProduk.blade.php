@@ -1,4 +1,5 @@
 @extends('template_layout/template')
+@section('title','tambah produk')
 @section('konten')
 
           <div class="card card-primary">

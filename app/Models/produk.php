@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class produk extends Model
 {
-    //use HasFactory;
+    use HasFactory;
     protected $table = "produk";
+
+    public function user_produk()
+    {
+    	return $this->belongsTo('User::class');
+    }
 }

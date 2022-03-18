@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Produk;
 use App\Models\transaksi;
+use DB;
 
 class produkController extends Controller
 {
@@ -15,7 +17,8 @@ class produkController extends Controller
      */
     public function index()
     {
-        $produk = Produk::all();
+        $produk = DB::table('produk')
+        ->where('user_id_produk', Auth::user()->id)->get();
         return view('admin.produk.v_produk',compact('produk'));
     }
 
@@ -42,6 +45,7 @@ class produkController extends Controller
         $c_produk = new Produk;
         $c_produk->nama_produk = $request->nama_produk;
         $c_produk->tarif_produk = $request->tarif_produk;
+        $c_produk->user_id_produk = Auth::user()->id;
         $c_produk->save();
 
         return redirect('/produk');
@@ -101,6 +105,13 @@ class produkController extends Controller
         return redirect('/produk');
     }
 
+    public function home()
+    {
+        $total_produk = produk::count();
+        $total_transaksi = transaksi::count();
+        return view('admin.home',compact('total_produk', 'total_transaksi'));
+    }
+    
     public function __construct()
     {
         $this->middleware('auth');

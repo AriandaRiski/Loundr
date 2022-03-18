@@ -1,78 +1,46 @@
 @extends('template_layout/template')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+@section('title','Transaksi')
 @section('konten')
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{asset('template')}}/plugins/fontawesome-free/css/all.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="{{asset('template')}}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="{{asset('template')}}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="{{asset('template')}}/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{asset('template')}}/dist/css/adminlte.min.css">
-   <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-</head>
-<body class="hold-transition sidebar-mini">
-<div class="wrapper">
-  <!-- Navbar -->  
-  <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
+<div class="container">
+    <div class="card-body">
         <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Data Transaksi</h3>
-                <a  type="button" class="btn btn-success btn-lg float-right" href="{{url ('/transaksi/create')}}"> 
-                <i class="fa fa-plus-circle"></i>
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2>Daftar Transaksi</h2>
+                        <a  type="button" class="btn btn-success btn-lg float-right" href="{{url ('/transaksi/create')}}"> 
+                <i class="bx bx-plus-medical nav_icon"></i>
                  </a>
-              </div>
-              
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table id="example1" class="table table-bordered table-hover table-responsive">
-                  <thead>
+                    </div>
+                    <div class="panel-body">
+        <form class="form-horizontal" action="{{url('/transaksi/cari')}}" method="get"  align="right">
+            <input type="text" name="cari" value="{{ old('cari') }}">
+            <input type="submit" value="CARI">
+            </form>
+            <br>
+                <table id="example1" class="table table-hover table-responsive-sm">
+                <thead>
 				        <tr>
-                   <th>NO</th>
+                    <th>NO</th>
                     <th>NAMA</th>
-                    <!-- <th>NO. HP</th> -->
-                    <th>TANGGAL TERIMA</th>
                     <th>TANGGAL SELESAI</th>
                     <th>BERAT</th>
-                    <th>PRODUK</th>
-                    <th>TOTAL HARGA</th>
                     <th>BAYAR</th>
                     <th>AKSI</th>
                     <th>STATUS</th>
-		           </tr>
+		          </tr>
 					      </thead>
 						    <tbody>
                   <?php $no=1 ?>
-                @foreach ($trans as $trans)
-                      
+                @foreach ($transs as $trans)
+                      @if ($trans->user_id == Auth::user()->id)
                       <tr>
                         <td>{{$no++}}</td>
                         <td>{{$trans->nama}}</td>
-                        <td>{{$trans->tgl_pesan}}</td>
                         <td>{{$trans->tgl_ambil}}</td>
                         <td>{{$trans->berat}} Kg</td>
-                        <td>{{$trans->nama_produk}}</td>
-                        <td>
-                        <?php 
-                    $number = $trans->total_harga;
-                    $format_indonesia = number_format ($number, 0, ',', '.');
-                    echo "Rp. ".$format_indonesia; //1.234,56
-                    ?>
-                        </td>
                         <td>
                         <?php
                           $number = $trans->bayar;
@@ -81,25 +49,39 @@
                             echo "<button class='btn btn-danger btn-shadowed popover-hover btn-xs' data-container='body' data-toggle='tooltip' data-placement='left' data-content='Belum Lunas'><i class='icon-power-switch'></i>Rp.{$format_indonesia}</button>";
                             }else{
                               echo "<button class='btn btn-info btn-shadowed popover-hover btn-xs' data-container='body' data-toggle='tooltip' data-placement='left' data-content='Lunas'><i class='fa fa-check'></i>Lunas</button>";
-                                  }
+                            }
                       ?>
                         </td>
                         
-                       <td> <div class="btn-group">
-                            <a href="{{url('/transaksi/'.$trans->id.'/edit')}}" type="button" class="btn btn-warning" >
-                              <i class="fas fa-pen"></i>
-                            </a>
-                            <form method="POST" action="{{ url('/transaksi/'.$trans->id) }}">
+                      <td> <div class="btn-group">
+
+                      <div class="col-lg-6 mb-1">
+              <div class="btn-group" role="group" aria-label="Basic example">
+              <a href="{{url('/transaksi/'.$trans->id.'/edit')}}" type="button" class="btn btn-outline-warning" >
+              <i class="bx bxs-edit nav_icon"></i>
+              </a>
+                <button disabled>
+                <form method="POST" action="{{ url('/transaksi/'.$trans->id) }}">
                             @csrf
                             <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="btn btn-danger btn-flat">
-                              <i class="fas fa-trash"></i>
+                            <button type="submit" class="btn btn-outline-danger">
+                              <i class="bx bxs-trash nav_icon"></i>
                             </button>
-                            </form>
-                          </div>
-                          <a href="{{url('/transaksi/struk/'.$trans->id)}}" type="button" class="btn btn-primary btn-sm" target="_blank" >
-                              CETAK STRUK
-                            </a>
+                            </form>    
+              </button>
+              @if ($trans->diambilORbelum ==0)
+                <a href="{{url('/transaksi/struk/'.$trans->id)}}" type="button" class="btn btn-outline-primary btn-sm" target="_blank" >
+                  <i class="bx bxs-printer nav_icon"></i>
+                </a>
+              @else
+              <button class="btn btn-outline-primary btn-sm" target="_blank" disabled >
+                <i class="bx bxs-printer nav_icon"></i>
+              </button>
+              @endif
+                            
+              </div>
+              
+            </div>
                         </td>
                         <td>   
                         @if ($trans->diambilORbelum ==0)
@@ -107,91 +89,18 @@
                       @else
                       <a href="{{url('/transaksi/status/'.$trans->id)}}" class="btn btn-primary btn-sm">Sudah Diambil</a>
                       @endif  
-                        
-                      <!-- <label class="button {{ ($trans->diambilORbelum ==0) ? 'btn-danger' : 'btn-primary disabled' }}">
-                         {{ ($trans->diambilORbelum ==0) ? 'Belum Diambil' : 'Sudah Diambil'}}
-                        </label> -->
                       </td>
                       </tr>
+                      @endif
                       @endforeach
                 
                  </tfoot>
                 </table>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-
-          <!-- /.col -->
-        </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-  
-  <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-    
+            jumlah data : {{ $transs->total() }}<br>
+            <center>{{$transs->render()}}</center>
     </div>
-    
-  </footer>
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+    </div>
+    </div>
 </div>
-<!-- ./wrapper -->
-
-<!-- jQuery -->
-<script src="{{asset('template')}}/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="{{asset('template')}}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables  & Plugins -->
-<script src="{{asset('template')}}/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="{{asset('template')}}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="{{asset('template')}}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="{{asset('template')}}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="{{asset('template')}}/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="{{asset('template')}}/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="{{asset('template')}}/plugins/jszip/jszip.min.js"></script>
-<script src="{{asset('template')}}/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="{{asset('template')}}/plugins/pdfmake/vfs_fonts.js"></script>
-<script src="{{asset('template')}}/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="{{asset('template')}}/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="{{asset('template')}}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<!-- AdminLTE App -->
-<script src="{{asset('template')}}/dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{asset('template')}}/dist/js/demo.js"></script>
-<!-- Page specific script -->
-<!-- Bootstrap Switch -->
-<script src="{{asset('template')}}/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
-
-</body>
-<script>
-  $(document).ready(function() {
-    $('#example1').DataTable( {
-        dom: 'Bfrtip',
-        buttons: [
-            {
-                extend: 'pdfHtml5',
-                orientation: 'landscape',
-                pageSize: 'A4'
-            },
-            {
-              extend: 'excelHtml5',
-            }
-        ]
-    } );
-} );
-
-    
-</script>
-</html>
-
-
+</div>
 @endsection

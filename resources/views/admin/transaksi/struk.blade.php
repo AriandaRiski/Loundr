@@ -71,7 +71,7 @@
             <div class="right">
                 <ul>
                     <li>{{$cetak->nama}}</li>
-                    <li>{{$cetak->tgl_pesan}}</li>
+                    <li>{{$cetak->created_at}}</li>
                     <li>{{$cetak->tgl_ambil}}</li>
                 </ul>
             </div>

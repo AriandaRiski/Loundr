@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\transaksi;
 use App\Models\produk;
 
@@ -22,13 +22,15 @@ class transaksiController extends Controller
     {
 //        $trans = transaksi::all();
 
-        $trans = DB::table('transaksi as a')
+        
+        $transs = DB::table('transaksi as a')
                 ->select('a.*','b.id as id_pro','b.nama_produk','b.tarif_produk')
                 ->leftJoin('produk as b','a.id_produk','=','b.id')
                 ->orderBy('a.created_at','DESC')
-                ->get();
+                ->where('user_id', Auth::user()->id)
+                ->paginate(5);
                 
-        return view('admin.transaksi.v_transaksi',compact('trans'));
+        return view('admin.transaksi.v_transaksi',compact('transs'));
     }
 
     /**
@@ -61,16 +63,18 @@ class transaksiController extends Controller
         // ->leftJoin('produk as b','a.id_produk','=','b.id')
         // ->get();
         $c_trans = new transaksi;
-        
         $c_trans->nama = $request->nama;
         $c_trans->hp = $request->hp;
-        $c_trans->tgl_pesan = $request->tgl_pesan;
+        // $c_trans->tgl_pesan = $request->tgl_pesan;
         $c_trans->tgl_ambil = $request->tgl_ambil;
         $c_trans->berat = $request->berat;
-        $c_trans->keterangan = $request->keterangan;
+        // $c_trans->keterangan = $request->keterangan;
         $c_trans->id_produk = $request->id_produk;
         $c_trans->total_harga = $request->total_harga;
         $c_trans->bayar = $request->sisa;
+        $c_trans->user_id = Auth::user()->id;
+
+        
         $c_trans->save();
         return redirect('/transaksi');
     }
@@ -115,7 +119,7 @@ class transaksiController extends Controller
         $c_trans = transaksi::find($id);
         $c_trans->nama = $request->nama;
         $c_trans->hp = $request->hp;
-        $c_trans->tgl_pesan = $request->tgl_pesan;
+        // $c_trans->tgl_pesan = $request->tgl_pesan;
         $c_trans->tgl_ambil = $request->tgl_ambil;
         $c_trans->berat = $request->berat;
         $c_trans->keterangan = $request->keterangan;
@@ -174,16 +178,56 @@ class transaksiController extends Controller
          ->select('a.*','b.id as id_pro','b.nama_produk','b.tarif_produk')
         ->leftJoin('produk as b','a.id_produk','=','b.id')
         ->where('a.bayar',0)
-        ->orderBy('tgl_pesan','DESC')
+        ->orderBy('created_at','DESC')
+        ->where('user_id',Auth::user()->id)
         ->get();
 
          // $total = transaksi::sum('total_harga');
-        $total = transaksi::where('bayar','=','0')->sum('total_harga');
+        $total = transaksi::where('user_id',Auth::user()->id)->where('bayar','=','0')->sum('total_harga');
         return view('admin.transaksi.v_laporan',compact('lap','total'));
     }
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function cari(Request $request)
+    {
+        $cari = $request->cari;
+        $transs = DB::table('transaksi as a')
+                ->select('a.*','b.id as id_pro','b.nama_produk','b.tarif_produk')
+                ->leftJoin('produk as b','a.id_produk','=','b.id')
+                ->orderBy('a.created_at','DESC')
+                ->where('a.nama','like','%'.$cari.'%')
+                ->paginate();
+
+        return view('admin.transaksi.v_transaksi',compact('transs'));
+    }
+
+    public function autosearch(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = transaksi::where('nama','LIKE',$request->nama.'%')->get();
+            $output = '';
+            if (count($data)>0) {
+                $output = '<ul class="list-group" style="display: block; position: relative; z-index: 1">';
+                foreach ($data as $row) {
+                    $output .= '<li class="list-group-item">'.$row->nama.'</li>';
+                }
+                $output .= '</ul>';
+            }else {
+                $output .= '<li class="list-group-item">'.'No Data Found'.'</li>';
+            }
+            return $output;
+        }
+        
+        return view('admin.transaksi/tambahTransaksi');
+
+    }
+
+      public function autocomplete(Request $request)
+    {
+        $data = transaksi::select("nama")
+                ->where("nama","LIKE","%{$request->query}%")
+                ->get();
+   
+        return response()->json($data);
+    }
+
 }

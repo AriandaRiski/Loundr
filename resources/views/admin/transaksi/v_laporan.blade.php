@@ -36,18 +36,20 @@
                   <tbody>
                   <?php $no=1; ?>
                   @foreach ($lap as $pro)
+                  @if ($pro->user_id == Auth::user()->id)
                   <tr>
                     <td>{{$no++}}</td>
-                    <td>{{$pro->tgl_pesan}}</td>
+                    <td>{{$pro->created_at}}</td>
                     <td align="right">
-                    <?php 
+                    @php
                     $number = $pro->total_harga;
                     $format_indonesia = number_format ($number, 0, ',', '.');
                     echo $format_indonesia; //1.234,56
-                    ?>  
+                    @endphp
                     </td> 
                     
                   </tr>
+                  @endif
                   @endforeach
                   </tbody>
                   <tfoot>
