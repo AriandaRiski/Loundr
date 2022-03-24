@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\produkController;
 use App\Http\Controllers\transaksiController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
 // use App\Model\transaksi;
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,9 @@ Route::group(['middleware' => ['auth','ceklevel:1']], function (){
     
 });
 
+Route::group(['middleware' => ['auth','ceklevel:0']], function (){
+Route::resource('data_user',AdminController::class);
+});
 
 
 Auth::routes();

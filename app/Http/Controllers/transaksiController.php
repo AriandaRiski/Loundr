@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use App\Models\transaksi;
 use App\Models\produk;
+use App\Models\User;
 
 use DB;
 use SUM;
@@ -87,7 +88,7 @@ class transaksiController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -162,12 +163,16 @@ class transaksiController extends Controller
 
     public function cetak($id)
     {
+        
+
         $cetak = DB::table('transaksi as a')
         ->select('a.*','b.*','b.id as idpro')
         ->leftJoin('produk as b','a.id_produk','=','b.id')
         ->where('a.id',$id)
         ->first();
-        return view('admin.transaksi/struk',compact('cetak'));
+
+        $cetak1 = DB::table('users as a')->select('a.*')->get();
+        return view('admin.transaksi/struk',compact('cetak','cetak1'));
     }
 
     public function laporan(Request $request)
