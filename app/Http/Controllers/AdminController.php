@@ -50,8 +50,8 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        $show_trans = Transaksi::where('user_id')->count();
-        $show_produk = Produk::where('user_id_produk')->count();
+        $show_trans = Transaksi::where('user_id', $id)->count();
+        $show_produk = Produk::where('user_id_produk', $id)->count();
         
         return view('admin.detail_user',compact('show_trans', 'show_produk'));
     }

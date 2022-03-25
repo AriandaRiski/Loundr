@@ -3,7 +3,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 @section('title','Transaksi')
 @section('konten')
-<div class="container" style="overflow-x: auto;" >
+<div class="container" style="overflow-x: auto;">
     <div class="card-body">
         <div class="row">
             <div class="col-sm-12">
@@ -15,6 +15,12 @@
                         </a>
                     </div>
                     <div class="panel-body">
+                        @if(Session::has('success'))
+                        <div class="alert alert-success">
+                            <strong>{{ session()->get('success') }}</strong>
+                        </div>
+                        @endif
+
                         <form class="form-horizontal" action="{{url('/transaksi/cari')}}" method="get" align="right">
                             <input type="text" name="cari" value="{{ old('cari') }}">
                             <input type="submit" value="CARI">
@@ -62,7 +68,7 @@
                                                         <i class="bx bxs-edit nav_icon"></i>
                                                     </a>
                                                     <button disabled>
-                                                        <form method="POST" action="{{ url('/transaksi/'.$trans->id) }}">
+                                                        <form method="POST" action="{{ url('/transaksi/'.$trans->id) }}" onsubmit="return confirm('Hapus Data?')">
                                                             @csrf
                                                             <input type="hidden" name="_method" value="DELETE">
                                                             <button type="submit" class="btn btn-outline-danger">

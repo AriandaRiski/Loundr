@@ -77,7 +77,7 @@ class transaksiController extends Controller
 
         
         $c_trans->save();
-        return redirect('/transaksi');
+        return redirect('/transaksi')->with('success','Data Berhasil di Simpan!');
     }
 
     /**
@@ -128,7 +128,7 @@ class transaksiController extends Controller
         //$c_trans->total_harga = $request->total_harga;
         $c_trans->bayar = $request->sisa2;
         $c_trans->save();
-        return redirect('/transaksi');
+        return redirect('/transaksi')->with('success','Data Berhasil di Update');
     }
 
     /**
@@ -141,7 +141,7 @@ class transaksiController extends Controller
     {
         $c_trans = transaksi::find($id);
         $c_trans->delete();
-        return redirect('/transaksi');
+        return redirect('/transaksi')->with('success','Data Berhasil di Hapus');
     }
 
     public function status($id)

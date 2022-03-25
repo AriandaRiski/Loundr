@@ -48,7 +48,7 @@ class produkController extends Controller
         $c_produk->user_id_produk = Auth::user()->id;
         $c_produk->save();
 
-        return redirect('/produk');
+        return redirect('/produk')->with('success','Data Berhasil Di Simpan!');
     }
 
     /**
@@ -88,7 +88,7 @@ class produkController extends Controller
         $c_produk->tarif_produk = $request->tarif_produk;
         $c_produk->save();
 
-        return redirect('/produk');
+        return redirect('/produk')->with('success','Data Berhasil Di Update');
     }
 
     /**
@@ -102,7 +102,7 @@ class produkController extends Controller
         $c_produk = Produk::find($id);
         $c_produk->delete();
 
-        return redirect('/produk');
+        return redirect('/produk')->with('success','Data Berhasil Di Hapus!');
     }
 
     public function home()

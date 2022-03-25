@@ -7,6 +7,11 @@
               <div class="card-header border-0">
                 <h3 class="card-title">Produk</h3>
                 <div class="card-tools">
+                  @if (Session::has('success'))
+                <div class="alert alert-success">
+                  <strong>{{session()->get('success')}}</strong>
+                </div>
+                @endif
                 <a href="{{url('/produk/create')}}" type="button" class="btn btn-success btn-lg">
                     <i class="bx bx-plus-medical nav_icon"></i>
                   </a>
@@ -37,7 +42,7 @@
                         <a href="{{url('/produk/'.$pro->id.'/edit')}}" type="button" class="btn btn-warning" >
                           <i class="bx bxs-edit nav_icon"></i>
                         </a>
-                        <form method="POST" action="{{ url('/produk/'.$pro->id) }}">
+                        <form method="POST" action="{{ url('/produk/'.$pro->id) }}" onsubmit="return confirm('Hapus data?')">
                         @csrf
                         <input type="hidden" name="_method" value="DELETE">
                         <button type="submit" class="btn btn-danger btn-flat">

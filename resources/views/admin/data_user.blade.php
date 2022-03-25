@@ -2,6 +2,7 @@
 @section('title','Data User')
 @section('konten')
 <div>
+    <p class="new-account">Don't have an account? <a href="{{route('register')}}">Tambah User</a></p>
     <table class="table table-hover table-responsive" id="dataTables-example">
         <thead>
             <tr>
